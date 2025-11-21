@@ -19,7 +19,7 @@ namespace Clickboard
         }
 
         public static void LogException(Exception ex, string context = "")
-        {
+        { 
             Log($"{context} Exception: {ex}", "ERROR");
         }
 

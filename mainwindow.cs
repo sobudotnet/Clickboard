@@ -13,15 +13,14 @@ namespace Clickboard
         private TextBox clipboardTextBox;
         private Button addClipboardButton;
         private List<string> clipboardEntries = new List<string>();
-        private readonly string configPath = Path.Combine(Application.StartupPath, "clipboard.cfg");
-        private readonly string keyPath = Path.Combine(Application.StartupPath, "clipboard.key");
+        private readonly string configPath = Path.Combine(Application.StartupPath, "clickboard.cfg");
+        private readonly string keyPath = Path.Combine(Application.StartupPath, "clickboard.key");
 
         public mainwindow()
         {
             InitializeComponent();
 
-            
-            this.BackColor = ColorTranslator.FromHtml("#240115"); 
+            this.BackColor = ColorTranslator.FromHtml("#240115");
 
             using (var ms = new MemoryStream(Properties.Resources.clickboard))
             {
@@ -30,21 +29,20 @@ namespace Clickboard
 
             DebugLogger.Log("E1000: Application started.");
 
-            
             var inputPanel = new Panel
             {
                 Height = 40,
                 Dock = DockStyle.Top,
-                BackColor = ColorTranslator.FromHtml("#2f131e") 
+                BackColor = ColorTranslator.FromHtml("#2f131e")
             };
 
             clipboardTextBox = new TextBox
             {
                 Width = 300,
                 Text = "Enter text to save",
-                ForeColor = ColorTranslator.FromHtml("#240115"), 
+                ForeColor = ColorTranslator.FromHtml("#240115"),
                 Location = new Point(10, 8),
-                BackColor = ColorTranslator.FromHtml("#87f5fb"), 
+                BackColor = ColorTranslator.FromHtml("#87f5fb"),
                 BorderStyle = BorderStyle.FixedSingle,
                 Font = new Font("Segoe UI", 10, FontStyle.Regular)
             };
@@ -73,7 +71,7 @@ namespace Clickboard
                 Height = 24,
                 Location = new Point(clipboardTextBox.Width + 25, 9),
                 FlatStyle = FlatStyle.Flat,
-                BackColor = ColorTranslator.FromHtml("#de3c4b"), 
+                BackColor = ColorTranslator.FromHtml("#de3c4b"),
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
@@ -90,8 +88,8 @@ namespace Clickboard
                 Height = 24,
                 Location = new Point(addClipboardButton.Location.X + addClipboardButton.Width + 10, 9),
                 FlatStyle = FlatStyle.Flat,
-                BackColor = ColorTranslator.FromHtml("#cec3c1"), 
-                ForeColor = ColorTranslator.FromHtml("#240115"), 
+                BackColor = ColorTranslator.FromHtml("#cec3c1"),
+                ForeColor = ColorTranslator.FromHtml("#240115"),
                 Font = new Font("Segoe UI", 9, FontStyle.Regular)
             };
             diagnosticsButton.Click += (s, e) =>
@@ -156,8 +154,8 @@ namespace Clickboard
                 Height = 32,
                 Margin = new Padding(3),
                 Tag = text,
-                BackColor = ColorTranslator.FromHtml("#913B5D"), 
-                ForeColor = ColorTranslator.FromHtml("#2f131e"), 
+                BackColor = ColorTranslator.FromHtml("#913B5D"),
+                ForeColor = ColorTranslator.FromHtml("#2f131e"),
                 FlatStyle = FlatStyle.Flat
             };
             clipboardButton.Click += (s, args) =>
@@ -190,7 +188,6 @@ namespace Clickboard
             buttonListPanel.Controls.Add(clipboardButton);
         }
 
-        // --- Persistence with encryption ---
         private void SaveClipboardButtons()
         {
             try
@@ -200,7 +197,7 @@ namespace Clickboard
                 var encrypted = EncryptString(plain, key);
                 File.WriteAllText(configPath, encrypted);
             }
-            catch { /* Handle errors as needed */ }
+            catch { }
         }
 
         private void LoadClipboardButtons()
@@ -237,7 +234,7 @@ namespace Clickboard
 
             using (var rng = new RNGCryptoServiceProvider())
             {
-                byte[] key = new byte[32]; // AES-256
+                byte[] key = new byte[32];
                 rng.GetBytes(key);
                 File.WriteAllBytes(keyPath, key);
                 return key;
@@ -254,7 +251,6 @@ namespace Clickboard
                 {
                     byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
                     byte[] cipherBytes = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
-                    // Store IV + cipher
                     byte[] result = new byte[aes.IV.Length + cipherBytes.Length];
                     Buffer.BlockCopy(aes.IV, 0, result, 0, aes.IV.Length);
                     Buffer.BlockCopy(cipherBytes, 0, result, aes.IV.Length, cipherBytes.Length);
@@ -281,6 +277,7 @@ namespace Clickboard
                 }
             }
         }
+
         private Point lastPoint;
         private void TitleBar_MouseDown(object sender, MouseEventArgs e)
         {

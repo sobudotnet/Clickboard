@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Clickboard.csproj">
+    <BuildType Project="Release" />
+  </Project>
+</Solution>

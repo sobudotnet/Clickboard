@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace Clickboard
 {
-    public static class Logger
+    public static class DebugLogger
     {
         private static readonly string logPath = Path.Combine(Application.StartupPath, "Clickboard.log");
 

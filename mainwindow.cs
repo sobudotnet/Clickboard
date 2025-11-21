@@ -28,7 +28,7 @@ namespace Clickboard
                 this.Icon = new Icon(ms);
             }
 
-            Logger.Log("E1000: Application started.");
+            DebugLogger.Log("E1000: Application started.");
 
             
             var inputPanel = new Panel
@@ -98,12 +98,12 @@ namespace Clickboard
             {
                 try
                 {
-                    System.Diagnostics.Process.Start("explorer.exe", Logger.GetLogFilePath());
-                    Logger.Log("E4000: Diagnostics log opened for user.");
+                    System.Diagnostics.Process.Start("explorer.exe", DebugLogger.GetLogFilePath());
+                    DebugLogger.Log("E4000: Diagnostics log opened for user.");
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogException(ex, "E4001: Opening diagnostics log");
+                    DebugLogger.LogException(ex, "E4001: Opening diagnostics log");
                     MessageBox.Show("Unable to open diagnostics log file.", "Clickboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
@@ -123,7 +123,7 @@ namespace Clickboard
 
         private void closeButton_Click(object sender, EventArgs e)
         {
-            Logger.Log("E1001: Application closing.");
+            DebugLogger.Log("E1001: Application closing.");
             SaveClipboardButtons();
             this.Close();
         }
@@ -133,14 +133,14 @@ namespace Clickboard
             string text = clipboardTextBox.Text.Trim();
             if (string.IsNullOrEmpty(text) || text == "Enter text to save")
             {
-                Logger.Log("E2000: Attempted to add empty clipboard button.", "WARN");
+                DebugLogger.Log("E2000: Attempted to add empty clipboard button.", "WARN");
                 toolTip.Show("Please enter text.", addClipboardButton, 2000);
                 return;
             }
 
             AddClipboardButton(text);
             clipboardEntries.Add(text);
-            Logger.Log($"E2001: Clipboard button added: {text}");
+            DebugLogger.Log($"E2001: Clipboard button added: {text}");
             clipboardTextBox.Text = "Enter text to save";
             clipboardTextBox.ForeColor = Color.Gray;
 
@@ -163,7 +163,7 @@ namespace Clickboard
             clipboardButton.Click += (s, args) =>
             {
                 Clipboard.SetText(text);
-                Logger.Log($"E2002: Clipboard button clicked: {text}");
+                DebugLogger.Log($"E2002: Clipboard button clicked: {text}");
                 toolTip.Show("Copied to clipboard!", clipboardButton, 2000);
             };
             toolTip.SetToolTip(clipboardButton, "Click to copy this text");
@@ -174,7 +174,7 @@ namespace Clickboard
             {
                 buttonListPanel.Controls.Remove(clipboardButton);
                 clipboardEntries.Remove(text);
-                Logger.Log($"E2003: Clipboard button deleted: {text}");
+                DebugLogger.Log($"E2003: Clipboard button deleted: {text}");
                 SaveClipboardButtons();
             };
             contextMenu.Items.Add(deleteItem);
@@ -221,11 +221,11 @@ namespace Clickboard
                     clipboardEntries.Add(line);
                     AddClipboardButton(line);
                 }
-                Logger.Log("E3000: Clipboard buttons loaded from config.");
+                DebugLogger.Log("E3000: Clipboard buttons loaded from config.");
             }
             catch (Exception ex)
             {
-                Logger.LogException(ex, "E3001: Loading clipboard buttons");
+                DebugLogger.LogException(ex, "E3001: Loading clipboard buttons");
                 MessageBox.Show("Failed to load clipboard buttons. Key may be missing or file corrupted: If issues persist contact @s.o.b.u on discord.", "Clickboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }

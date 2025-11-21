@@ -74,7 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
+    <Compile Include="DebugLogger.cs" />
     <Compile Include="mainwindow.cs">
       <SubType>Form</SubType>
     </Compile>

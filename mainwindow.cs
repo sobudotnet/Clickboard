@@ -176,7 +176,7 @@ namespace Clickboard
             clipboardButton.Click += (s, args) =>
             {
                 Clipboard.SetText(text);
-                DebugLogger.Log($"E2002: Clipboard button clicked: {text}");
+                DebugLogger.Log($"E2002: Clipboard button clicked");
                 toolTip.Show("Copied to clipboard!", clipboardButton, 2000);
             };
             toolTip.SetToolTip(clipboardButton, "Click to copy this text");
@@ -187,7 +187,7 @@ namespace Clickboard
             {
                 buttonListPanel.Controls.Remove(clipboardButton);
                 clipboardEntries.Remove(text);
-                DebugLogger.Log($"E2003: Clipboard button deleted: {text}");
+                DebugLogger.Log($"E2003: Clipboard button deleted");
                 SaveClipboardButtons();
             };
             contextMenu.Items.Add(deleteItem);

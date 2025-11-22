@@ -1,5 +1,5 @@
 <Solution>
-  <Project Path="Clickboard.csproj">
+  <Project Path="Clickboard.csproj" Id="a2b942fc-3cdf-4001-a8fa-e0e8a6e78be9">
     <BuildType Project="Release" />
   </Project>
 </Solution>

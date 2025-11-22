@@ -28,6 +28,21 @@ namespace Clickboard
             }
 
             DebugLogger.Log("E1000: Application started.");
+            // fix/workaround of the first input not creating buttons on init, 
+            bool firstRun = false;
+            if (!File.Exists(keyPath))
+            {
+                GetOrCreateKey();
+                firstRun = true;
+            }
+            if (!File.Exists(configPath))
+            {
+                var key = GetOrCreateKey();
+                var exampleButton = " ";
+                var encrypted = EncryptString(exampleButton, key);
+                File.WriteAllText(configPath, encrypted);
+                firstRun = true;
+            }
 
             var inputPanel = new Panel
             {
@@ -114,7 +129,7 @@ namespace Clickboard
             this.Controls.Add(inputPanel);
             inputPanel.BringToFront();
 
-            LoadClipboardButtons();
+            LoadClipboardButtons(firstRun);
 
             titleBar.MouseDown += TitleBar_MouseDown;
         }
@@ -138,7 +153,7 @@ namespace Clickboard
 
             AddClipboardButton(text);
             clipboardEntries.Add(text);
-            DebugLogger.Log($"E2001: Clipboard button added: {text}");
+            DebugLogger.Log($"E2001: Clipboard button added");
             clipboardTextBox.Text = "Enter text to save";
             clipboardTextBox.ForeColor = Color.Gray;
 
@@ -200,7 +215,7 @@ namespace Clickboard
             catch { }
         }
 
-        private void LoadClipboardButtons()
+        private void LoadClipboardButtons(bool firstRun = false)
         {
             clipboardEntries.Clear();
             buttonListPanel.Controls.Clear();
@@ -223,7 +238,10 @@ namespace Clickboard
             catch (Exception ex)
             {
                 DebugLogger.LogException(ex, "E3001: Loading clipboard buttons");
-                MessageBox.Show("Failed to load clipboard buttons. Key may be missing or file corrupted: If issues persist contact @s.o.b.u on discord.", "Clickboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (!firstRun)
+                {
+                    MessageBox.Show("Failed to load clipboard buttons. Key may be missing or file corrupted: If issues persist contact @s.o.b.u on discord.", "Clickboard", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
         }
 

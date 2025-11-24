@@ -175,7 +175,7 @@ namespace Clickboard
             };
             clipboardButton.Click += (s, args) =>
             {
-                Clipboard.SetText(text);
+                Clipboard.SetText((string)clipboardButton.Tag); // Always use the latest value
                 DebugLogger.Log($"E2002: Clipboard button clicked");
                 toolTip.Show("Copied to clipboard!", clipboardButton, 2000);
             };
@@ -191,6 +191,40 @@ namespace Clickboard
                 SaveClipboardButtons();
             };
             contextMenu.Items.Add(deleteItem);
+
+            // Edit clipboard value (actual string to paste)
+            var editValueItem = new ToolStripMenuItem("Edit");
+            editValueItem.Click += (s, e) =>
+            {
+                string currentValue = (string)clipboardButton.Tag;
+                string newValue = ShowInputDialog("Edit Clipboard Value", "Edit the value to be pasted:", currentValue);
+                if (!string.IsNullOrWhiteSpace(newValue) && newValue != currentValue)
+                {
+                    int idx = clipboardEntries.IndexOf(currentValue);
+                    DebugLogger.Log($"E2003: Clipboard button edited");
+                    if (idx >= 0)
+                    {
+                        clipboardEntries[idx] = newValue;
+                        clipboardButton.Tag = newValue;
+                        SaveClipboardButtons();
+                    }
+                }
+            };
+            contextMenu.Items.Add(editValueItem);
+
+            // Edit display name (button text)
+            var editDisplayNameItem = new ToolStripMenuItem("Edit Display Name");
+            editDisplayNameItem.Click += (s, e) =>
+            {
+                string currentDisplay = clipboardButton.Text;
+                string newDisplay = ShowInputDialog("Edit Display Name", "Edit the button's display name:", currentDisplay);
+                if (!string.IsNullOrWhiteSpace(newDisplay) && newDisplay != currentDisplay)
+                {
+                    clipboardButton.Text = newDisplay;
+                    // clipboardButton.Tag remains unchanged, so clipboard value is not affected
+                }
+            };
+            contextMenu.Items.Add(editDisplayNameItem);
 
             clipboardButton.MouseUp += (s, e) =>
             {
@@ -294,6 +328,27 @@ namespace Clickboard
                     return Encoding.UTF8.GetString(plainBytes);
                 }
             }
+        }
+
+        private string ShowInputDialog(string title, string prompt, string defaultValue)
+        {
+            Form promptForm = new Form()
+            {
+                Width = 350,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = title,
+                StartPosition = FormStartPosition.CenterParent
+            };
+            Label textLabel = new Label() { Left = 10, Top = 20, Text = prompt, Width = 320 };
+            TextBox inputBox = new TextBox() { Left = 10, Top = 50, Width = 320, Text = defaultValue };
+            Button confirmation = new Button() { Text = "OK", Left = 250, Width = 80, Top = 80, DialogResult = DialogResult.OK };
+            promptForm.Controls.Add(textLabel);
+            promptForm.Controls.Add(inputBox);
+            promptForm.Controls.Add(confirmation);
+            promptForm.AcceptButton = confirmation;
+
+            return promptForm.ShowDialog() == DialogResult.OK ? inputBox.Text : defaultValue;
         }
 
         private Point lastPoint;

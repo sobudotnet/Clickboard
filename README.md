@@ -14,9 +14,11 @@
    - Click the **Add** button.
    - A new button appears below. Click it to copy the text.
 
-2. **Delete a Button:**
-   - Right-click any clipboard button.
-   - Select **Delete** to remove it.
+2. **Edit or Delete a Button:**
+   - Right-click any clipboard button to open its context menu.
+   - Select **Delete** to remove the button.
+   - Select **Edit** to change the clipboard value (the text that gets copied).
+   - Select **Edit Display Name** to change the button's visible label without affecting the copied value.
 
 3. **View or Send Diagnostics Log:**
    - Click the **LOGS** button in the top panel.
@@ -34,7 +36,6 @@
 - If the app cannot load buttons, you may see a warning. This can happen if the encryption key or config file is missing or corrupted.
 - If your encryption is corrupted, your clipboard is lost. i will not be able to 
 decrypt your encryption key.
-
 
 **Need help?**  
 Contact [@s.o.b.u on Discord](https://discord.com/) and send your diagnostics log for support.

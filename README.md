@@ -37,5 +37,24 @@
 - If your encryption is corrupted, your clipboard is lost. i will not be able to 
 decrypt your encryption key.
 
+## Updating Clickboard
+
+To update to the latest version:
+
+1. **Backup your clipboard data:**  
+   - Make a copy of `clickboard.cfg` and `clickboard.key` in your Clickboard folder.
+
+2. **Download the new version:**  
+   - Obtain the latest `Clickboard.exe` (and any DLLs if provided) from the official release.
+
+3. **Replace application files:**  
+   - Overwrite the old `Clickboard.exe` (and DLLs) with the new ones.
+   - **Do not** replace `clickboard.cfg` or `clickboard.key`—these contain your saved clipboard entries and encryption key.
+
+4. **Restart Clickboard:**  
+   - Launch the updated app. Your buttons and settings will be preserved.
+
+If you encounter issues, restore your backup files or contact support.
+
 **Need help?**  
 Contact [@s.o.b.u on Discord](https://discord.com/) and send your diagnostics log for support.

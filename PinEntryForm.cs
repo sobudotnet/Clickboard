@@ -49,23 +49,39 @@ namespace Clickboard
                 Left = 50,
                 Top = 85,
                 Width = 60,
-                DialogResult = DialogResult.OK
+                ForeColor = Color.White,
+                BackColor = ColorTranslator.FromHtml("#de3c4b"),
+                FlatStyle = FlatStyle.Flat,
+                DialogResult = DialogResult.None // dont touch
             };
+            okBtn.FlatAppearance.BorderSize = 0;
+
             var cancelBtn = new Button
             {
                 Text = "Cancel",
                 Left = 130,
                 Top = 85,
                 Width = 60,
+                ForeColor = Color.White,
+                BackColor = ColorTranslator.FromHtml("#de3c4b"),
+                FlatStyle = FlatStyle.Flat,
                 DialogResult = DialogResult.Cancel
             };
+            cancelBtn.FlatAppearance.BorderSize = 0;
 
             okBtn.Click += (s, e) =>
             {
                 if (VerifyPin(pinBox.Text))
+                {
                     this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
                 else
+                {
                     MessageBox.Show("Incorrect PIN.", "Clickboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    pinBox.Clear();
+                    pinBox.Focus();
+                }
             };
 
             this.Controls.Add(label);
@@ -80,8 +96,18 @@ namespace Clickboard
         {
             if (!File.Exists(pinPath)) return true;
             var stored = File.ReadAllText(pinPath);
-            var hash = Convert.ToBase64String(SHA256.Create().ComputeHash(Encoding.UTF8.GetBytes(input)));
-            return hash == stored;
+            var parts = stored.Split(':');
+            if (parts.Length != 2) return false;
+            var storedHash = parts[0];
+            var storedSalt = parts[1];
+
+            byte[] saltBytes = Convert.FromBase64String(storedSalt);
+            using (var deriveBytes = new Rfc2898DeriveBytes(input, saltBytes, 10000))
+            {
+                byte[] hash = deriveBytes.GetBytes(32);
+                string hashString = Convert.ToBase64String(hash);
+                return hashString == storedHash;
+            }
         }
     }
 }

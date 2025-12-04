@@ -15,7 +15,8 @@ namespace Clickboard
         private List<string> clipboardEntries = new List<string>();
         private readonly string configPath = Path.Combine(Application.StartupPath, "clickboard.cfg");
         private readonly string keyPath = Path.Combine(Application.StartupPath, "clickboard.key");
-
+        private readonly string pinPath = Path.Combine(Application.StartupPath, "clickboard.pin");
+        
         public mainwindow()
         {
             InitializeComponent();
@@ -42,6 +43,18 @@ namespace Clickboard
                 var encrypted = EncryptString(exampleButton, key);
                 File.WriteAllText(configPath, encrypted);
                 firstRun = true;
+            }
+
+            if (File.Exists(pinPath))
+            {
+                using (var pinForm = new PinEntryForm(pinPath))
+                {
+                    if (pinForm.ShowDialog() != DialogResult.OK)
+                    {
+                        DebugLogger.Log("E5000: Incorrect PIN or cancelled. Exiting.");
+                        Environment.Exit(0);
+                    }
+                }
             }
 
             var inputPanel = new Panel
@@ -122,6 +135,27 @@ namespace Clickboard
             };
             toolTip.SetToolTip(diagnosticsButton, "Open diagnostics log file to send to support");
             inputPanel.Controls.Add(diagnosticsButton);
+
+            var pinToggleButton = new Button
+            {
+                Text = "PIN",
+                Width = 70,
+                Height = 24,
+                Location = new Point(diagnosticsButton.Location.X + diagnosticsButton.Width + 10, 9),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = ColorTranslator.FromHtml("#cec3c1"),
+                ForeColor = ColorTranslator.FromHtml("#240115"),
+                Font = new Font("Segoe UI", 9, FontStyle.Regular)
+            };
+            pinToggleButton.Click += (s, e) =>
+            {
+                using (var pinMgmt = new PinManagementForm(pinPath))
+                {
+                    pinMgmt.ShowDialog();
+                }
+            };
+            toolTip.SetToolTip(pinToggleButton, "Set, change, or remove PIN code");
+            inputPanel.Controls.Add(pinToggleButton);
 
             inputPanel.Controls.Add(clipboardTextBox);
             inputPanel.Controls.Add(addClipboardButton);

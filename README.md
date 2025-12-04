@@ -1,3 +1,11 @@
+## vNext
+
+### Optional PIN Protection
+- **PIN Security:** You can set a 4-digit PIN to protect your clipboard data. If enabled, the app will prompt for the PIN on startup.
+- **Secure Storage:** The PIN is securely hashed using PBKDF2 with a random salt and never stored in plaintext.
+- **PIN Management:** Use the **PIN** button in the top panel to set, change, or remove your PIN at any time.
+- **No PIN Required:** If you do not set a PIN, the app starts normally without prompting.
+
 # Clickboard
 **DEMO**
 [![DEMO](https://img.youtube.com/vi/kaADbWzfjdQ/maxresdefault.jpg)](https://youtu.be/kaADbWzfjdQ)
@@ -25,10 +33,16 @@
    - The log file (`Clickboard.log`) will open in Explorer.
    - Send this file to support if you encounter issues.
 
+4. **Set or Change PIN:**
+   - Click the **PIN** button in the top panel to open the PIN management window.
+   - Set, change, or remove your 4-digit PIN for additional security.
+   - If a PIN is set, you must enter it each time the app starts.
+
 ## Security
 
 - All clipboard entries are encrypted using AES-256.
 - The encryption key is generated and stored locally; only your app can decrypt the config.
+- **Optional PIN protection:** If enabled, your app requires a 4-digit PIN on startup. The PIN is securely hashed and salted using PBKDF2.
 
 ## Troubleshooting
 
@@ -49,7 +63,7 @@ To update to the latest version:
 
 3. **Replace application files:**  
    - Overwrite the old `Clickboard.exe` (and DLLs) with the new ones.
-   - **Do not** replace `clickboard.cfg` or `clickboard.key`—these contain your saved clipboard entries and encryption key.
+   - **Do not** replace `clickboard.cfg` or `clickboard.key`â€”these contain your saved clipboard entries and encryption key.
 
 4. **Restart Clickboard:**  
    - Launch the updated app. Your buttons and settings will be preserved.

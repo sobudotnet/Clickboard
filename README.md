@@ -1,4 +1,4 @@
-## vNext
+## NEW FEATURE
 
 ### Optional PIN Protection
 - **PIN Security:** You can set a 4-digit PIN to protect your clipboard data. If enabled, the app will prompt for the PIN on startup.

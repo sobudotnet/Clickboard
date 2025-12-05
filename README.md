@@ -7,7 +7,7 @@
 - **No PIN Required:** If you do not set a PIN, the app starts normally without prompting.
 
 # Clickboard
-**DEMO**
+**OUTDATED DEMO**
 [![DEMO](https://img.youtube.com/vi/kaADbWzfjdQ/maxresdefault.jpg)](https://youtu.be/kaADbWzfjdQ)
 
 **Clickboard** is an easy-to-use, lightweight clipboard manager for Windows. It allows users to create pressable buttons that instantly copy saved text to the clipboard. All buttons are securely saved and persist between sessions, with encryption and a unique key. The app features a modern color scheme, custom UI, and built-in diagnostics logging for troubleshooting.

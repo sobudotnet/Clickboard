@@ -7,24 +7,27 @@ using System.Windows.Forms;
 
 namespace Clickboard
 {
-    public class PinEntryForm : Form
+    public partial class PinEntryForm : Form
     {
         private readonly string pinPath;
         private TextBox pinBox;
-        public PinEntryForm(string pinPath)
+
+        public PinEntryForm(string pinPath, Theme theme)
         {
+
+
             this.pinPath = pinPath;
             this.Text = "Enter PIN";
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Width = 260;
             this.Height = 150;
-            this.BackColor = ColorTranslator.FromHtml("#2f131e");
+            this.BackColor = Color.Black; 
 
             var label = new Label
             {
                 Text = "Enter 4-digit PIN:",
-                ForeColor = ColorTranslator.FromHtml("#87f5fb"),
+                ForeColor = Color.White,
                 Left = 20,
                 Top = 20,
                 Width = 200
@@ -35,7 +38,9 @@ namespace Clickboard
                 Top = 50,
                 Width = 200,
                 MaxLength = 4,
-                PasswordChar = '●'
+                PasswordChar = '●',
+                BackColor = Color.Black,
+                ForeColor = Color.White
             };
             pinBox.KeyPress += (s, e) =>
             {
@@ -50,9 +55,9 @@ namespace Clickboard
                 Top = 85,
                 Width = 60,
                 ForeColor = Color.White,
-                BackColor = ColorTranslator.FromHtml("#de3c4b"),
+                BackColor = Color.Black,
                 FlatStyle = FlatStyle.Flat,
-                DialogResult = DialogResult.None // dont touch
+                DialogResult = DialogResult.None
             };
             okBtn.FlatAppearance.BorderSize = 0;
 
@@ -63,7 +68,7 @@ namespace Clickboard
                 Top = 85,
                 Width = 60,
                 ForeColor = Color.White,
-                BackColor = ColorTranslator.FromHtml("#de3c4b"),
+                BackColor = Color.Black,
                 FlatStyle = FlatStyle.Flat,
                 DialogResult = DialogResult.Cancel
             };

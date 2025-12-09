@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Clickboard
@@ -13,31 +12,37 @@ namespace Clickboard
         private TextBox pinBox;
         private Button setBtn, removeBtn;
 
-        public PinManagementForm(string pinPath)
+        public PinManagementForm(string pinPath, Theme theme)
         {
             this.pinPath = pinPath;
             this.Text = "Manage PIN";
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.CenterParent;
-            this.Width = 300;
-            this.Height = 180;
-            this.BackColor = ColorTranslator.FromHtml("#2f131e");
+            this.Width = 320;
+            this.Height = 200;
+            this.BackColor = theme?.HeaderBarColor ?? SystemColors.Window;
 
             var label = new Label
             {
                 Text = "Set or change 4-digit PIN:",
-                ForeColor = ColorTranslator.FromHtml("#87f5fb"),
-                Left = 20,
-                Top = 20,
-                Width = 240
+                ForeColor = theme?.HeaderBarTextColor ?? Color.Black,
+                Dock = DockStyle.Top,
+                Height = 32,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
+
             pinBox = new TextBox
             {
-                Left = 20,
-                Top = 50,
-                Width = 240,
+                Dock = DockStyle.Top,
+                Height = 32,
                 MaxLength = 4,
-                PasswordChar = '●'
+                PasswordChar = '●',
+                TextAlign = HorizontalAlignment.Center,
+                Font = new Font("Segoe UI", 12, FontStyle.Regular),
+                BackColor = theme?.InputFieldColor ?? SystemColors.Window,
+                ForeColor = theme?.InputFieldTextColor ?? SystemColors.WindowText,
+                Margin = new Padding(16, 8, 16, 8)
             };
             pinBox.KeyPress += (s, e) =>
             {
@@ -45,14 +50,25 @@ namespace Clickboard
                     e.Handled = true;
             };
 
+            var buttonPanel = new Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 48
+            };
+
             setBtn = new Button
             {
                 Text = "Set PIN",
-                Left = 20,
-                Top = 90,
-                Width = 100,
-                ForeColor = Color.White
+                Width = 120,
+                Height = 36,
+                Left = 24,
+                Top = 6,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                BackColor = theme?.ButtonColor ?? Color.Black,
+                ForeColor = theme?.ButtonTextColor ?? Color.White,
+                FlatStyle = FlatStyle.Flat
             };
+            setBtn.FlatAppearance.BorderSize = 0;
             setBtn.Click += (s, e) =>
             {
                 if (pinBox.Text.Length != 4)
@@ -70,13 +86,15 @@ namespace Clickboard
             removeBtn = new Button
             {
                 Text = "Remove PIN",
-                Left = 140,
-                Top = 90,
                 Width = 120,
-                Enabled = File.Exists(pinPath),
-                ForeColor = Color.Black,
-                BackColor = ColorTranslator.FromHtml("#de3c4b"),
-                FlatStyle = FlatStyle.Flat
+                Height = 36,
+                Left = 160,
+                Top = 6,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                BackColor = theme?.ButtonColor ?? Color.Black,
+                ForeColor = theme?.ButtonTextColor ?? Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Enabled = File.Exists(pinPath)
             };
             removeBtn.FlatAppearance.BorderSize = 0;
             removeBtn.Click += (s, e) =>
@@ -89,10 +107,12 @@ namespace Clickboard
                 }
             };
 
-            this.Controls.Add(label);
+            buttonPanel.Controls.Add(setBtn);
+            buttonPanel.Controls.Add(removeBtn);
+
+            this.Controls.Add(buttonPanel);
             this.Controls.Add(pinBox);
-            this.Controls.Add(setBtn);
-            this.Controls.Add(removeBtn);
+            this.Controls.Add(label);
         }
 
         // PBKDF2 hash with salt
@@ -105,7 +125,7 @@ namespace Clickboard
             }
             salt = Convert.ToBase64String(saltBytes);
 
-            using (var deriveBytes = new Rfc2898DeriveBytes(pin, saltBytes, 10000))
+            using (var deriveBytes = new System.Security.Cryptography.Rfc2898DeriveBytes(pin, saltBytes, 10000))
             {
                 byte[] hash = deriveBytes.GetBytes(32); // 256-bit hash
                 return Convert.ToBase64String(hash);

@@ -1,11 +1,3 @@
-## NEW FEATURE
-
-### Optional PIN Protection
-- **PIN Security:** You can set a 4-digit PIN to protect your clipboard data. If enabled, the app will prompt for the PIN on startup.
-- **Secure Storage:** The PIN is securely hashed using PBKDF2 with a random salt and never stored in plaintext.
-- **PIN Management:** Use the **PIN** button in the top panel to set, change, or remove your PIN at any time.
-- **No PIN Required:** If you do not set a PIN, the app starts normally without prompting.
-
 # Clickboard
 **OUTDATED DEMO**
 [![DEMO](https://img.youtube.com/vi/HH4Y3-HX1bo/hqdefault.jpg)](https://youtu.be/HH4Y3-HX1bo)

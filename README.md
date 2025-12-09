@@ -1,77 +1,74 @@
+## NEW FEATURE
+
+### Optional PIN Protection
+- **PIN Security:** You can set a 4-digit PIN to protect your clipboard data. If enabled, the app will prompt for the PIN on startup.
+- **Secure Storage:** The PIN is securely hashed using PBKDF2 with a random salt and never stored in plaintext.
+- **PIN Management:** Use the **PIN** button in the top panel to set, change, or remove your PIN at any time.
+- **No PIN Required:** If you do not set a PIN, the app starts normally without prompting.
+
 # Clickboard
+**OUTDATED DEMO**
+[![DEMO](https://img.youtube.com/vi/kaADbWzfjdQ/maxresdefault.jpg)](https://youtu.be/kaADbWzfjdQ)
 
-Clickboard is a modern clipboard manager for Windows, designed for speed, security, and ease of use. Save text, images, and audio as pressable buttons—instantly copy them to your clipboard with a single click. All data is encrypted and persists between sessions.
+**Clickboard** is an easy-to-use, lightweight clipboard manager for Windows. It allows users to create pressable buttons that instantly copy saved text to the clipboard. All buttons are securely saved and persist between sessions, with encryption and a unique key. The app features a modern color scheme, custom UI, and built-in diagnostics logging for troubleshooting.
 
----
+- **Persistent & Secure:**  
+  All buttons are saved to an encrypted config file. Only your app instance can decode them.
 
-## Features
-
-- **Grid Layout:** Clipboard buttons are displayed in a 5-across grid for easy access and organization.
-- **Drag-and-Drop:** Add images, audio, and other supported files by dragging them into the input field or directly onto the button grid.
-- **Supported Formats:** PNG, BMP, JPG, JPEG, GIF, IMG, WEBP, MP3, WAV, OGG.
-- **Audio Player:** Right-click an audio button and select "Play" to listen in the built-in player.
-- **Themes:** Choose from hardcoded and custom themes. Instantly switch appearance from the theme selector or create your own.
-- **PIN Security:** Set a 4-digit PIN for extra protection. Required on startup if enabled.
-- **Load on Startup:** Optionally launch Clickboard automatically when Windows starts.
-- **Encrypted Storage:** All clipboard entries are encrypted with AES-256, and salted. Only your app instance can decrypt them.
-- **Easy Editing:** Right-click any button to edit its value, display name, or delete it.
-- **Wipe Data:** Erase all clipboard entries and settings from the settings menu.
-
----
-
-## Getting Started
+## Usage
 
 1. **Add a Clipboard Button:**
-   - Type text and click **Add**.
-   - Or drag/drop images, audio, or supported files into the input field or grid.
-   - New buttons appear in the grid. Click to copy their content.
+   - Type your text in the input field.
+   - Click the **Add** button.
+   - A new button appears below. Click it to copy the text.
 
-2. **Edit or Delete:**
-   - Right-click a button for options: Edit, Edit Display Name, Delete, or Play (for audio).
+2. **Edit or Delete a Button:**
+   - Right-click any clipboard button to open its context menu.
+   - Select **Delete** to remove the button.
+   - Select **Edit** to change the clipboard value (the text that gets copied).
+   - Select **Edit Display Name** to change the button's visible label without affecting the copied value.
 
-3. **Themes:**
-   - Click the **T** button to open the theme selector and change the app's look. You can also create a custom theme, using the provided template. 
-	- template.theme.json in the repo (Theme files must use 6-digit hex color codes in the format #RRGGBB (for example, #212B4E).
-      Do not use 8-digit hex codes (#AARRGGBB) or include alpha values—only standard HTML hex color codes are supported)
+3. **View or Send Diagnostics Log:**
+   - Click the **LOGS** button in the top panel.
+   - The log file (`Clickboard.log`) will open in Explorer.
+   - Send this file to support if you encounter issues.
 
-4. **Settings:**
-   - Click the **⚙** button to open settings. Enable "Load on Startup" or wipe all data.
-
-5. **PIN Security:**
-   - Click the **PIN** button to set, change, or remove your PIN.
-	
-
-
----
+4. **Set or Change PIN:**
+   - Click the **PIN** button in the top panel to open the PIN management window.
+   - Set, change, or remove your 4-digit PIN for additional security.
+   - If a PIN is set, you must enter it each time the app starts.
 
 ## Security
 
-- All clipboard data is encrypted using AES-256.
-- The encryption key is generated and stored locally.
-- Optional PIN protection uses secure hashing and salting (PBKDF2).
-
----
+- All clipboard entries are encrypted using AES-256.
+- The encryption key is generated and stored locally; only your app can decrypt the config.
+- **Optional PIN protection:** If enabled, your app requires a 4-digit PIN on startup. The PIN is securely hashed and salted using PBKDF2.
 
 ## Troubleshooting
-- Window lost off screen? delete your `mainwindow.loc` or `audioplayer.loc` file in the Clickboard folder to reset its position.
-- If you encounter issues, use the **LOGS** button to open the diagnostics log and send it to support.
-- If the app cannot load buttons, check for missing/corrupted config or key files.
-- Lost encryption key or cfg means lost clipboard data —keep backups if needed.
 
----
+- If you encounter issues, click the **LOGS** button and send the `Clickboard.log` file to support.
+- If the app cannot load buttons, you may see a warning. This can happen if the encryption key or config file is missing or corrupted.
+- If your encryption is corrupted, your clipboard is lost. i will not be able to 
+decrypt your encryption key.
 
 ## Updating Clickboard
 
-1. **Backup your clipboard data:**
-   - Copy `clickboard.cfg` and `clickboard.key` from your Clickboard folder.
-2. **Download the latest version:**
-   - Replace the old `Clickboard.exe` and DLLs with the new ones.
-   - Do **not** replace your config or key files.
-3. **Restart Clickboard:**
-   - Your buttons and settings will be preserved.
+To update to the latest version:
 
----
+1. **Backup your clipboard data:**  
+   - Make a copy of `clickboard.cfg` and `clickboard.key` in your Clickboard folder.
 
-## Support
+2. **Download the new version:**  
+   - Obtain the latest `Clickboard.exe` (and any DLLs if provided) from the official release.
 
-Need help? Contact [@s.o.b.u on Discord](https://discord.com/) and send your diagnostics log for support.
+3. **Replace application files:**  
+   - Overwrite the old `Clickboard.exe` (and DLLs) with the new ones.
+   - **Do not** replace `clickboard.cfg` or `clickboard.key`—these contain your saved clipboard entries and encryption key.
+
+4. **Restart Clickboard:**  
+   - Launch the updated app. Your buttons and settings will be preserved.
+
+If you encounter issues, restore your backup files or contact support.
+
+**Need help?**  
+Contact [@s.o.b.u on Discord](https://discord.com/) and send your diagnostics log for support.

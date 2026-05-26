@@ -63,4 +63,4 @@ To update to the latest version:
 If you encounter issues, restore your backup files or contact support.
 
 **Need help?**  
-Contact [@s.o.b.u on Discord](https://discord.com/) and send your diagnostics log for support.
+(make issue) and send your diagnostics log for support.
